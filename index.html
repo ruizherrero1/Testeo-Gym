@@ -63,7 +63,7 @@
   .theme-trigger { display:flex; align-items:center; gap:8px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:999px; padding:6px 10px; cursor:pointer; min-width:52px; justify-content:center; }
   .theme-bubble { width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,.22); box-shadow:0 0 0 1px rgba(0,0,0,.15) inset; }
   .theme-chevron { font-size:12px; color:var(--muted); line-height:1; }
-  .theme-menu { position:absolute; top:calc(100% + 8px); right:0; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:10px; display:none; gap:10px; grid-template-columns:repeat(3,1fr); min-width:150px; box-shadow:0 12px 30px rgba(0,0,0,.28); z-index:150; }
+  .theme-menu { position:absolute; top:calc(100% + 8px); right:0; background:color-mix(in srgb, var(--bg) 78%, white); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:10px; display:none; gap:10px; grid-template-columns:repeat(3,1fr); min-width:150px; box-shadow:0 12px 30px rgba(0,0,0,.45); z-index:150; }
   .theme-menu.open { display:grid; }
   .theme-swatch { width:34px; height:34px; border-radius:50%; border:2px solid var(--border); cursor:pointer; position:relative; }
   .theme-swatch.active::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,.55); }
@@ -265,7 +265,7 @@
   /* MODALS */
   .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
   .overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: 20px 20px 0 0; padding: 24px 20px 32px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); border-bottom: none; animation: slideUp .25s ease; }
+  .modal { background: color-mix(in srgb, var(--bg) 78%, white); border-radius: 20px 20px 0 0; padding: 24px 20px 32px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.10); border-bottom: none; animation: slideUp .25s ease; }
   @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 16px; color: var(--accent); }
   .modal-close { float: right; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; margin-top: -4px; }
