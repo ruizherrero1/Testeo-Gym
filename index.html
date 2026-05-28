@@ -798,25 +798,23 @@
         <span class="theme-chevron">▾</span>
       </button>
       <div class="theme-menu" id="themeMenu">
-    <button type="button" class="theme-swatch " title="militar" style="background:#6EE7B7" onclick="selectTheme('militar')"></button>
+    <button type="button" class="theme-swatch " title="militar" style="background:#E8A020" onclick="selectTheme('militar')"></button>
   
-    <button type="button" class="theme-swatch " title="cobalto" style="background:#4F8EF7" onclick="selectTheme('cobalto')"></button>
+    <button type="button" class="theme-swatch " title="cobalto" style="background:#F43F5E" onclick="selectTheme('cobalto')"></button>
   
-    <button type="button" class="theme-swatch " title="rojo" style="background:#EF4444" onclick="selectTheme('rojo')"></button>
+    <button type="button" class="theme-swatch " title="rojo" style="background:#38BDF8" onclick="selectTheme('rojo')"></button>
   
     <button type="button" class="theme-swatch active" title="grafito" style="background:#F97316" onclick="selectTheme('grafito')"></button>
   
-    <button type="button" class="theme-swatch " title="claro" style="background:#2563EB" onclick="selectTheme('claro')"></button>
-  
     <button type="button" class="theme-swatch " title="nike" style="background:#B7FF00" onclick="selectTheme('nike')"></button>
   
-    <button type="button" class="theme-swatch " title="oceano" style="background:#38BDF8" onclick="selectTheme('oceano')"></button>
+    <button type="button" class="theme-swatch " title="oceano" style="background:#FB923C" onclick="selectTheme('oceano')"></button>
   
-    <button type="button" class="theme-swatch " title="sunset" style="background:#FB7185" onclick="selectTheme('sunset')"></button>
+    <button type="button" class="theme-swatch " title="sunset" style="background:#FBBF24" onclick="selectTheme('sunset')"></button>
   
-    <button type="button" class="theme-swatch " title="royal" style="background:#8B5CF6" onclick="selectTheme('royal')"></button>
+    <button type="button" class="theme-swatch " title="royal" style="background:#22D3EE" onclick="selectTheme('royal')"></button>
   
-    <button type="button" class="theme-swatch " title="arena" style="background:#D6A85F" onclick="selectTheme('arena')"></button>
+    <button type="button" class="theme-swatch " title="arena" style="background:#60A5FA" onclick="selectTheme('arena')"></button>
   </div>
     </div>
     <div class="timer-badge" id="timerBadge" onclick="goToActiveWorkout()" title="Volver al entrenamiento activo"><div class="timer-badge-title" id="timerBadgeTitle">Entreno</div><div class="timer-badge-time" id="timerBadgeTime">00:00</div></div>
@@ -21143,16 +21141,24 @@ const importedState = {
   }
 };
 const themes = {
-  militar: { bg:'#0A0F0C', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#6EE7B7', accent2:'#A3E635', text:'#ECFDF5', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
-  cobalto: { bg:'#090C18', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#4F8EF7', accent2:'#A78BFA', text:'#E8EEFF', muted:'rgba(255,255,255,0.40)', done:'#22D3EE' },
-  rojo:    { bg:'#100808', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#EF4444', accent2:'#F59E0B', text:'#F5F5F5', muted:'rgba(255,255,255,0.42)', done:'#22C55E' },
+  // fondo verde oscuro + acento dorado
+  militar: { bg:'#0B1A10', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#E8A020', accent2:'#F5C842', text:'#F0FDF4', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // fondo azul medianoche + acento coral/rosa
+  cobalto: { bg:'#080C1E', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#F43F5E', accent2:'#FB7185', text:'#FFF1F2', muted:'rgba(255,255,255,0.40)', done:'#34D399' },
+  // fondo borgoña oscuro + acento azul cielo
+  rojo:    { bg:'#160A10', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#38BDF8', accent2:'#7DD3FC', text:'#F0F9FF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // fondo azul marino + acento naranja  ← referencia del usuario
   grafito: { bg:'#111827', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#F97316', accent2:'#FDBA74', text:'#F3F4F6', muted:'rgba(255,255,255,0.45)', done:'#34D399' },
-  claro:   { bg:'#F5F7FB', surface:'rgba(0,0,0,0.04)', card:'rgba(0,0,0,0.05)', border:'rgba(0,0,0,0.10)', accent:'#2563EB', accent2:'#7C3AED', text:'#0F172A', muted:'rgba(0,0,0,0.45)', done:'#22C55E' },
+  // negro puro + lima neón
   nike:    { bg:'#080808', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#B7FF00', accent2:'#E7FF7A', text:'#FAFAFA', muted:'rgba(255,255,255,0.42)', done:'#B7FF00' },
-  oceano:  { bg:'#07131D', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#38BDF8', accent2:'#22D3EE', text:'#E0F2FE', muted:'rgba(255,255,255,0.40)', done:'#67E8F9' },
-  sunset:  { bg:'#1A1020', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FB7185', accent2:'#FDBA74', text:'#FDF2F8', muted:'rgba(255,255,255,0.40)', done:'#F9A8D4' },
-  royal:   { bg:'#120F25', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#8B5CF6', accent2:'#C4B5FD', text:'#F5F3FF', muted:'rgba(255,255,255,0.42)', done:'#A78BFA' },
-  arena:   { bg:'#17130D', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#D6A85F', accent2:'#F2D3A1', text:'#FAF3E7', muted:'rgba(255,255,255,0.42)', done:'#EAB308' }
+  // fondo océano profundo + acento coral cálido
+  oceano:  { bg:'#061520', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FB923C', accent2:'#FDBA74', text:'#FFF7ED', muted:'rgba(255,255,255,0.40)', done:'#34D399' },
+  // fondo violeta oscuro + acento amarillo dorado
+  sunset:  { bg:'#1A0A1F', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FBBF24', accent2:'#FDE68A', text:'#FFFBEB', muted:'rgba(255,255,255,0.40)', done:'#34D399' },
+  // fondo índigo medianoche + acento cian
+  royal:   { bg:'#0F0820', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#22D3EE', accent2:'#67E8F9', text:'#ECFEFF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // fondo tierra cálida oscura + acento azul frío
+  arena:   { bg:'#1A1108', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#60A5FA', accent2:'#93C5FD', text:'#EFF6FF', muted:'rgba(255,255,255,0.42)', done:'#34D399' }
 };
 
 const DEFAULT_NOTES_TEXT = `# Resumen semanal — rutina ajustada
