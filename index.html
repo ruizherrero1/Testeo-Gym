@@ -180,11 +180,11 @@
   .cal-header { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 8px; }
   .cal-day-name { text-align: center; font-size: 11px; color: var(--muted); font-weight: 700; padding: 4px 0; text-transform: uppercase; letter-spacing: .6px; }
   .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 18px; }
-  .cal-day { min-height: 60px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%); border: none; transition: transform .2s cubic-bezier(.34,1.4,.64,1), box-shadow .2s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.18); }
-  .cal-day:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 6px 18px rgba(0,0,0,0.25); }
-  .cal-day.has-workout { background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent) 0%, color-mix(in srgb, var(--accent) 8%, transparent) 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 4px 16px color-mix(in srgb, var(--accent) 20%, transparent); }
-  .cal-day.today { box-shadow: inset 0 1px 0 rgba(255,255,255,0.30), 0 0 0 1.5px color-mix(in srgb, var(--accent) 60%, transparent), 0 4px 16px color-mix(in srgb, var(--accent) 25%, transparent); }
-  .cal-day.selected { background: linear-gradient(135deg, color-mix(in srgb, var(--done) 22%, transparent) 0%, color-mix(in srgb, var(--done) 7%, transparent) 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 0 1.5px color-mix(in srgb, var(--done) 55%, transparent), 0 4px 14px color-mix(in srgb, var(--done) 20%, transparent); transform: translateY(-1px); }
+  .cal-day { min-height: 60px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; background: transparent; border: none; transition: transform .2s cubic-bezier(.34,1.4,.64,1), box-shadow .2s ease; }
+  .cal-day:hover { transform: translateY(-2px); background: rgba(255,255,255,0.06); }
+  .cal-day.has-workout { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .cal-day.today { outline: 1.5px solid color-mix(in srgb, var(--accent) 70%, transparent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .cal-day.selected { background: color-mix(in srgb, var(--done) 20%, transparent); outline: 1.5px solid color-mix(in srgb, var(--done) 60%, transparent); transform: translateY(-1px); }
   .cal-day .day-num { font-weight: 700; font-size: 14px; }
   .cal-day .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; margin-top: 4px; box-shadow: 0 0 0 4px rgba(249,115,22,.12); }
   .cal-day.other-month { opacity: .26; box-shadow: none; }
