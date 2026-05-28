@@ -88,7 +88,7 @@
   .progress-hero-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
   .progress-big-number { font-size:34px; line-height:1; font-weight:900; letter-spacing:-.04em; color:var(--text); }
   .progress-big-number span { color:var(--muted); font-size:.56em; font-weight:700; letter-spacing:-.02em; white-space:nowrap; }
-  .progress-range-select { background:transparent; border:0; color:var(--accent); font:inherit; font-size:16px; font-weight:800; text-align:right; outline:none; max-width:170px; }
+  .progress-range-select { background:var(--bg); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:4px 8px; color:var(--accent); font:inherit; font-size:16px; font-weight:800; outline:none; max-width:170px; } .progress-range-select option { background:var(--bg); color:var(--text); }
   .progress-chart-wrap { position:relative; height:220px; margin-top:8px; }
   .progress-bar-chart { width:100%; height:100%; display:block; }
   .progress-metric-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
@@ -265,7 +265,7 @@
   /* MODALS */
   .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
   .overlay.open { display: flex; }
-  .modal { background: color-mix(in srgb, var(--bg) 78%, white); border-radius: 20px 20px 0 0; padding: 24px 20px 32px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.10); border-bottom: none; animation: slideUp .25s ease; }
+  .modal { background: color-mix(in srgb, var(--bg) 92%, white); border-radius: 20px 20px 0 0; padding: 24px 20px 32px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.10); border-bottom: none; animation: slideUp .25s ease; }
   @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 16px; color: var(--accent); }
   .modal-close { float: right; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; margin-top: -4px; }
@@ -273,7 +273,7 @@
   .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
   .field input, .field select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; transition: border-color .2s; }
   .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
-  .field select option { background: var(--surface); }
+  .field select option { background: var(--bg); color: var(--text); }
   .btn { padding: 12px 20px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .2s; }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: #3a7ee8; }
