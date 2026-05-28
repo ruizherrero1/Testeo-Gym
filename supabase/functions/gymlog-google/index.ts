@@ -7,6 +7,8 @@ const GOOGLE_REDIRECT_URI = Deno.env.get("GOOGLE_REDIRECT_URI")!;
 const GYMLOG_APP_URL = Deno.env.get("GYMLOG_APP_URL")!;
 const GYMLOG_OWNER_EMAIL = (Deno.env.get("GYMLOG_OWNER_EMAIL") || "").toLowerCase();
 const GYMLOG_DRIVE_PARENT_FOLDER_ID = Deno.env.get("GYMLOG_DRIVE_PARENT_FOLDER_ID") || "";
+const GYMLOG_BACKUP_PREFIX = "gymlog-ramon-backup-";
+const GYMLOG_BACKUP_KEEP = 5;
 const GOOGLE_HEALTH_BASE = "https://health.googleapis.com/v4/users/me/dataTypes";
 const HEALTH_SCOPES = [
   "https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly",
@@ -142,6 +144,67 @@ async function googleRequest(accessToken: string, url: string, init: RequestInit
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error?.message || data.error_description || `Google API: ${response.status}`);
   return data;
+}
+
+function backupFileName(reason = "auto"): string {
+  const stamp = new Date().toISOString().replace(/\.\d{3}Z$/, "Z").replace(/[:]/g, "-");
+  const safeReason = reason.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").slice(0, 24) || "auto";
+  return `${GYMLOG_BACKUP_PREFIX}${stamp}-${safeReason}.json`;
+}
+
+function backupMetaFromState(backupState: unknown, reason = "auto") {
+  const state = backupState as Record<string, unknown> | null;
+  const workoutLog = Array.isArray(state?.workoutLog) ? state.workoutLog as Array<Record<string, unknown>> : [];
+  const weightLog = Array.isArray(state?.weightLog) ? state.weightLog as Array<Record<string, unknown>> : [];
+  const latestWorkoutDate = workoutLog
+    .map((log) => String(log.completedAt || log.date || ""))
+    .filter(Boolean)
+    .sort()
+    .at(-1) || "";
+  return {
+    gymLogBackup: "true",
+    createdAt: new Date().toISOString(),
+    reason,
+    sessionCount: String(workoutLog.length),
+    weightCount: String(weightLog.length),
+    latestWorkoutDate,
+  };
+}
+
+async function listDriveBackupsWithToken(accessToken: string) {
+  const query = [
+    "trashed = false",
+    "mimeType = 'application/json'",
+    `name contains '${GYMLOG_BACKUP_PREFIX.slice(0, -1)}'`,
+  ].join(" and ");
+  const params = new URLSearchParams({
+    q: query,
+    pageSize: "1000",
+    orderBy: "createdTime desc",
+    fields: "files(id,name,createdTime,modifiedTime,webViewLink,size,appProperties)",
+  });
+  const data = await googleRequest(accessToken, `https://www.googleapis.com/drive/v3/files?${params}`);
+  const files = Array.isArray(data.files) ? data.files as Array<Record<string, unknown>> : [];
+  return files.sort((a, b) => {
+    const aTime = String((a.appProperties as Record<string, unknown> | undefined)?.createdAt || a.createdTime || "");
+    const bTime = String((b.appProperties as Record<string, unknown> | undefined)?.createdAt || b.createdTime || "");
+    return bTime.localeCompare(aTime);
+  });
+}
+
+async function listDriveBackups(user: AppUser) {
+  const { token } = await driveAccessTokenFor(user.id);
+  return await listDriveBackupsWithToken(token);
+}
+
+async function rotateDriveBackups(accessToken: string) {
+  const backups = await listDriveBackupsWithToken(accessToken);
+  const stale = backups.slice(GYMLOG_BACKUP_KEEP);
+  await Promise.all(stale.map((file) => fetch(`https://www.googleapis.com/drive/v3/files/${file.id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  }).catch((error) => console.warn("No se pudo borrar backup antiguo", file.id, error))));
+  return backups.slice(0, GYMLOG_BACKUP_KEEP);
 }
 
 async function beginAuthorization(user: AppUser, body: Record<string, unknown>) {
@@ -298,23 +361,26 @@ async function metricsForSession(user: AppUser, session: WorkoutSession, pointNa
   return { health: { metrics }, metricsPending: !heartRateSamples.length, metricsError };
 }
 
-async function saveDriveBackup(user: AppUser, backupState: unknown) {
-  const { token, connection } = await driveAccessTokenFor(user.id);
+async function saveDriveBackup(user: AppUser, backupState: unknown, options: Record<string, unknown> = {}) {
+  const { token } = await driveAccessTokenFor(user.id);
   const content = JSON.stringify(backupState, null, 2);
-  const existingId = connection.backup_file_id as string | undefined;
-  const metadata: Record<string, unknown> = { name: "gymlog-ramon-backup-auto.json", mimeType: "application/json" };
-  if (!existingId && GYMLOG_DRIVE_PARENT_FOLDER_ID) metadata.parents = [GYMLOG_DRIVE_PARENT_FOLDER_ID];
+  const reason = typeof options.reason === "string" ? options.reason : "auto";
+  const providedMeta = (options.meta && typeof options.meta === "object" ? options.meta : {}) as Record<string, unknown>;
+  const metadata: Record<string, unknown> = {
+    name: backupFileName(reason),
+    mimeType: "application/json",
+    appProperties: { ...backupMetaFromState(backupState, reason), ...providedMeta },
+  };
+  if (GYMLOG_DRIVE_PARENT_FOLDER_ID) metadata.parents = [GYMLOG_DRIVE_PARENT_FOLDER_ID];
   const boundary = `gymlog_${crypto.randomUUID()}`;
   const body = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${content}\r\n--${boundary}--`;
-  const path = existingId
-    ? `https://www.googleapis.com/upload/drive/v3/files/${existingId}?uploadType=multipart&fields=id,webViewLink`
-    : "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink";
+  const path = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,createdTime,modifiedTime,webViewLink,size,appProperties";
   let response = await fetch(path, {
-    method: existingId ? "PATCH" : "POST",
+    method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": `multipart/related; boundary=${boundary}` },
     body,
   });
-  if (!response.ok && !existingId && GYMLOG_DRIVE_PARENT_FOLDER_ID) {
+  if (!response.ok && GYMLOG_DRIVE_PARENT_FOLDER_ID) {
     delete metadata.parents;
     const fallbackBody = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${content}\r\n--${boundary}--`;
     response = await fetch(path, {
@@ -334,7 +400,24 @@ async function saveDriveBackup(user: AppUser, backupState: unknown) {
       updated_at: new Date().toISOString(),
     }),
   });
-  return file;
+  const retainedBackups = await rotateDriveBackups(token);
+  return { ...file, retainedBackups };
+}
+
+async function readDriveBackup(user: AppUser, fileId: string) {
+  const { token } = await driveAccessTokenFor(user.id);
+  const backups = await listDriveBackupsWithToken(token);
+  const file = backups.find((item) => item.id === fileId);
+  if (!file) throw new Error("Backup no encontrado en Drive.");
+  const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const text = await response.text();
+  if (!response.ok) {
+    const data = JSON.parse(text || "{}");
+    throw new Error(data.error?.message || "No se pudo leer el backup de Drive.");
+  }
+  return { file, backupState: JSON.parse(text) };
 }
 
 Deno.serve(async (req) => {
@@ -354,13 +437,25 @@ Deno.serve(async (req) => {
       });
     }
     if (action === "authorize") return json(await beginAuthorization(user, body));
-    if (action === "backup") return json({ backup: await saveDriveBackup(user, body.backupState) });
+    if (action === "backups") return json({ backups: await listDriveBackups(user), keep: GYMLOG_BACKUP_KEEP });
+    if (action === "backup-file") {
+      if (!body.fileId) return json({ error: "Falta el backup a restaurar." }, 400);
+      return json(await readDriveBackup(user, String(body.fileId)));
+    }
+    if (action === "backup") return json({
+      backup: await saveDriveBackup(user, body.backupState, {
+        reason: body.reason,
+        meta: body.backupMeta,
+      }),
+      backups: await listDriveBackups(user),
+      keep: GYMLOG_BACKUP_KEEP,
+    });
     if (action === "sync") {
       const session = body.session as WorkoutSession;
       if (!session?.localId || !session.startTime || !session.endTime) return json({ error: "Sesion incompleta." }, 400);
       const remoteDataPointId = await createExercise(user, session);
       const metrics = await metricsForSession(user, session, remoteDataPointId);
-      const backup = body.backupState ? await saveDriveBackup(user, body.backupState) : null;
+      const backup = body.backupState ? await saveDriveBackup(user, body.backupState, { meta: body.backupMeta }) : null;
       return json({ remoteDataPointId, ...metrics, backup });
     }
     if (action === "metrics") {
