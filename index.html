@@ -21159,8 +21159,10 @@ const themes = {
   sunset:  { bg:'#1A0A1F', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FBBF24', accent2:'#FDE68A', text:'#FFFBEB', muted:'rgba(255,255,255,0.40)', done:'#34D399' },
   // fondo índigo medianoche + acento cian
   royal:   { bg:'#0F0820', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#22D3EE', accent2:'#67E8F9', text:'#ECFEFF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
-  // fondo verde militar oscuro + texto beige caqui
-  camo:    { bg:'#111A0A', surface:'rgba(255,255,255,0.06)', card:'rgba(255,255,255,0.07)', border:'rgba(255,255,255,0.10)', accent:'#B8A878', accent2:'#8A9E5C', text:'#EAE0C8', muted:'rgba(234,224,200,0.50)', done:'#7A9450' }
+  // fondo verde militar + cards mate con tono verde (sin brillo blanco)
+  camo:    { bg:'#182E10', surface:'rgba(255,255,255,0.05)', card:'rgba(255,255,255,0.06)', border:'rgba(255,255,255,0.09)', accent:'#B8A878', accent2:'#8A9E5C', text:'#EAE0C8', muted:'rgba(234,224,200,0.48)', done:'#7A9450',
+             'glass-bg':'linear-gradient(135deg, rgba(70,100,30,0.28) 0%, rgba(35,60,15,0.14) 50%, rgba(55,85,25,0.22) 100%)',
+             'glass-shadow':'inset 0 1px 0 rgba(255,255,255,0.07), inset 1px 0 0 rgba(255,255,255,0.03), inset -1px 0 0 rgba(255,255,255,0.02), inset 0 -1px 0 rgba(0,0,0,0.30), 0 8px 32px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.28)' }
 };
 
 const DEFAULT_NOTES_TEXT = `# Resumen semanal — rutina ajustada
