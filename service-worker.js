@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gymlog-ramon-health-v4';
+const CACHE_NAME = 'gymlog-ramon-health-v11';
 const APP_SHELL = [
   './',
   './index.html',
