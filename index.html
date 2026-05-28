@@ -815,6 +815,14 @@
     <button type="button" class="theme-swatch " title="royal" style="background:#22D3EE" onclick="selectTheme('royal')"></button>
   
     <button type="button" class="theme-swatch " title="arena" style="background:#60A5FA" onclick="selectTheme('arena')"></button>
+  
+    <button type="button" class="theme-swatch " title="cyber" style="background:#00F5D4" onclick="selectTheme('cyber')"></button>
+  
+    <button type="button" class="theme-swatch " title="aurora" style="background:#A3E635" onclick="selectTheme('aurora')"></button>
+  
+    <button type="button" class="theme-swatch " title="lava" style="background:#FF4500" onclick="selectTheme('lava')"></button>
+  
+    <button type="button" class="theme-swatch " title="minimal" style="background:#FF2D55" onclick="selectTheme('minimal')"></button>
   </div>
     </div>
     <div class="timer-badge" id="timerBadge" onclick="goToActiveWorkout()" title="Volver al entrenamiento activo"><div class="timer-badge-title" id="timerBadgeTitle">Entreno</div><div class="timer-badge-time" id="timerBadgeTime">00:00</div></div>
@@ -21158,7 +21166,15 @@ const themes = {
   // fondo índigo medianoche + acento cian
   royal:   { bg:'#0F0820', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#22D3EE', accent2:'#67E8F9', text:'#ECFEFF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
   // fondo tierra cálida oscura + acento azul frío
-  arena:   { bg:'#1A1108', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#60A5FA', accent2:'#93C5FD', text:'#EFF6FF', muted:'rgba(255,255,255,0.42)', done:'#34D399' }
+  arena:   { bg:'#1A1108', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#60A5FA', accent2:'#93C5FD', text:'#EFF6FF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // fondo azul medianoche profundo + turquesa neón + morado eléctrico
+  cyber:   { bg:'#0F0C20', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#00F5D4', accent2:'#7000FF', text:'#F0FFFE', muted:'rgba(255,255,255,0.42)', done:'#00F5D4' },
+  // fondo azul marino + verde lima + azul cielo
+  aurora:  { bg:'#1A2238', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#A3E635', accent2:'#38BDF8', text:'#F0F9FF', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // negro carbón + naranja lava + oro ámbar
+  lava:    { bg:'#121214', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FF4500', accent2:'#FFB800', text:'#F5F5F5', muted:'rgba(255,255,255,0.42)', done:'#34D399' },
+  // negro puro + rosa carmín + gris platino
+  minimal: { bg:'#0D0E12', surface:'rgba(255,255,255,0.07)', card:'rgba(255,255,255,0.08)', border:'rgba(255,255,255,0.11)', accent:'#FF2D55', accent2:'#FF6B81', text:'#FAFAFC', muted:'rgba(255,255,255,0.40)', done:'#34D399' }
 };
 
 const DEFAULT_NOTES_TEXT = `# Resumen semanal — rutina ajustada
