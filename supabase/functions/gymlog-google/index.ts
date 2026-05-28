@@ -268,12 +268,14 @@ async function metricsForSession(user: AppUser, session: WorkoutSession, pointNa
   } catch (_error) {
     // Creation may still be settling; raw heart rate can nevertheless be queried.
   }
-  const filter = `heart_rate.sample_time >= "${session.startTime}" AND heart_rate.sample_time <= "${session.endTime}"`;
+  const filter = `heart_rate.sample_time.physical_time >= "${session.startTime}" AND heart_rate.sample_time.physical_time < "${session.endTime}"`;
   let points: Array<Record<string, unknown>> = [];
+  let metricsError = "";
   try {
     const heartRates = await googleRequest(token, `${GOOGLE_HEALTH_BASE}/heart-rate/dataPoints?filter=${encodeURIComponent(filter)}&pageSize=10000`);
     points = heartRates.dataPoints || [];
-  } catch (_error) {
+  } catch (error) {
+    metricsError = error instanceof Error ? error.message : "No se pudo leer la frecuencia cardiaca.";
     points = [];
   }
   const heartRateSamples = points.map((point) => {
@@ -293,7 +295,7 @@ async function metricsForSession(user: AppUser, session: WorkoutSession, pointNa
     heartRateZoneDurations: summary.heartRateZoneDurations || null,
     heartRateSamples,
   };
-  return { health: { metrics }, metricsPending: !heartRateSamples.length };
+  return { health: { metrics }, metricsPending: !heartRateSamples.length, metricsError };
 }
 
 async function saveDriveBackup(user: AppUser, backupState: unknown) {
