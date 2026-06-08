@@ -1,0 +1,20 @@
+{
+  "name": "GymLog Ramon",
+  "short_name": "GymLog",
+  "description": "Rutinas, historial y progreso de entrenamiento.",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "icons/gym-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
